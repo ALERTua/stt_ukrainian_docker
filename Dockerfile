@@ -1,7 +1,7 @@
 ARG \
     PYTHON_VERSION=3.13 \
     APP_DIR=/usr/src/app \
-    SOURCE_DIR_NAME=source \
+    SOURCE_DIR_NAME=w2v-bert-uk-v2.1 \
     DATA_DIR=/data \
     GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0
