@@ -38,12 +38,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: false
 
       - name: Checkout github.com repo
-        run: git clone https://huggingface.co/spaces/patriotyk/styletts2-ukrainian
+        run: git clone https://huggingface.co/spaces/Yehor/w2v-bert-uk-v2.1 ./source
 
       - name: Generate Docker metadata
         id: meta
