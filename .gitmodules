@@ -1,6 +1,6 @@
 [submodule "script"]
 	path = script
 	url = https://github.com/ALERTua/script.git
-[submodule "source"]
+[submodule "w2v-bert-uk-v2.1"]
 	path = w2v-bert-uk-v2.1
 	url = https://huggingface.co/spaces/Yehor/w2v-bert-uk-v2.1
