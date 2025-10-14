@@ -30,7 +30,7 @@ The best way is to use the [docker-compose.yml](https://github.com/ALERTua/stt_u
 Or run directly with Docker:
 ```bash
 docker run -d \
-  -p 7861:7861 \
+  -p 7860:7860 \
   -v ./docker_volumes/stt/data:/data \
   --name stt_ukrainian \
   ghcr.io/alertua/stt_ukrainian_docker:latest
@@ -39,7 +39,7 @@ docker run -d \
 
 #### Gradio Web UI
 
-You can access the Gradio Web UI at `http://{container_ip}:$PORT`
+You can access the Gradio Web UI at `http://{container_ip}:7860`
 
 
 ### /data volume structure

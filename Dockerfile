@@ -3,7 +3,7 @@ ARG \
     APP_DIR=/usr/src/app \
     SOURCE_DIR_NAME=source \
     DATA_DIR=/data \
-    PORT=7861 \
+    GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0
 
 # -----------------------------------------------------------------
@@ -48,12 +48,12 @@ WORKDIR $APP_DIR
 FROM builder AS staging
 
 ARG \
-    PORT \
+    GRADIO_SERVER_PORT \
     GRADIO_SERVER_NAME
 
 ENV \
     # App
-    PORT=$PORT \
+    GRADIO_SERVER_PORT=$GRADIO_SERVER_PORT \
     GRADIO_SERVER_NAME=$GRADIO_SERVER_NAME \
     GRADIO_ANALYTICS_ENABLED=False
 
@@ -61,7 +61,7 @@ COPY $SOURCE_DIR_NAME/ .
 COPY entrypoint.sh .
 COPY entrypoint.py .
 
-EXPOSE $PORT
+EXPOSE $GRADIO_SERVER_PORT
 
 VOLUME $DATA_DIR
 
@@ -86,7 +86,7 @@ FROM staging AS production
 
 LABEL maintainer="ALERT <alexey.rubasheff@gmail.com>"
 
-HEALTHCHECK --interval=15s --timeout=5s --start-period=600s --retries=5 \
+HEALTHCHECK --interval=15s --timeout=5s --start-period=3s --retries=300 \
     CMD python -c "import sys, http.client; c=http.client.HTTPConnection('localhost', $PORT, timeout=5); c.request('HEAD', '/'); r=c.getresponse(); sys.exit(0 if r.status==200 else 1)"
 
 ENTRYPOINT []
