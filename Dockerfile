@@ -86,8 +86,8 @@ FROM staging AS production
 
 LABEL maintainer="ALERT <alexey.rubasheff@gmail.com>"
 
-HEALTHCHECK --interval=15s --timeout=5s --start-period=3s --retries=300 \
-    CMD python -c "import sys, http.client; c=http.client.HTTPConnection('localhost', $PORT, timeout=5); c.request('HEAD', '/'); r=c.getresponse(); sys.exit(0 if r.status==200 else 1)"
+HEALTHCHECK --interval=15s --timeout=5s --start-period=3s --retries=10 \
+    CMD python -c "import sys, http.client; c=http.client.HTTPConnection('localhost', $GRADIO_SERVER_PORT, timeout=5); c.request('HEAD', '/'); r=c.getresponse(); sys.exit(0 if r.status==200 else 1)"
 
 ENTRYPOINT []
 # CMD ["sleep", "infinity"]
