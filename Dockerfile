@@ -1,18 +1,16 @@
-ARG \
-    PYTHON_VERSION=3.13 \
-    APP_DIR=/usr/src/app \
-    SOURCE_DIR_NAME=w2v-bert-uk-v2.1 \
-    DATA_DIR=/data \
-    GRADIO_SERVER_PORT=7860 \
-    GRADIO_SERVER_NAME=0.0.0.0
+ARG PYTHON_VERSION=3.13
+ARG APP_DIR=/usr/src/app
+ARG SOURCE_DIR_NAME=w2v-bert-uk-v2.1
+ARG DATA_DIR=/data
+ARG GRADIO_SERVER_PORT=7860
+ARG GRADIO_SERVER_NAME=0.0.0.0
 
 # -----------------------------------------------------------------
 FROM ghcr.io/astral-sh/uv:python${PYTHON_VERSION}-trixie-slim AS builder
 
-ARG \
-    APP_DIR \
-    SOURCE_DIR_NAME \
-    DATA_DIR
+ARG APP_DIR
+ARG SOURCE_DIR_NAME
+ARG DATA_DIR
 
 ENV \
     # uv
@@ -47,9 +45,8 @@ WORKDIR $APP_DIR
 # -----------------------------------------------------------------
 FROM builder AS staging
 
-ARG \
-    GRADIO_SERVER_PORT \
-    GRADIO_SERVER_NAME
+ARG GRADIO_SERVER_PORT
+ARG GRADIO_SERVER_NAME
 
 ENV \
     # App
