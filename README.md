@@ -67,3 +67,14 @@ After the first run the data directory will look like this:
 ### Caveats
 
 - The first start is slow as the models are downloaded and the prerequisites get installed.
+- If you need a specific `torch` version, you can execute inside the running container:
+
+  E.g. torch 12 for cuda 12 for my 1080ti
+  ```bash
+  cd /data
+  source venv/bin/activate
+  uv pip install "torch<13" "torchaudio<13" --force-reinstall
+  ```
+  Then restart the container.
+ 
+  You can also execute this outside the container within the mounted virtual environment. 
