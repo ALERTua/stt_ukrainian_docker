@@ -1,5 +1,6 @@
 ARG PYTHON_VERSION=3.14
 ARG APP_DIR=/usr/src/app
+# do not forget to change it in the GitHub workflow
 ARG SOURCE_DIR_NAME=w2v-bert-uk-v3
 ARG DATA_DIR=/data
 ARG GRADIO_SERVER_PORT=7860

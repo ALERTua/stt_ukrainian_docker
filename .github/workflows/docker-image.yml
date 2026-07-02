@@ -43,7 +43,7 @@ jobs:
           submodules: false
 
       - name: Checkout external repo
-        run: git clone https://huggingface.co/spaces/Yehor/w2v-bert-uk-v2.1
+        run: git clone https://huggingface.co/spaces/Yehor/w2v-bert-uk-v3
 
       - name: Generate Docker metadata
         id: meta
