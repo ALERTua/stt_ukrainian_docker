@@ -6,7 +6,14 @@ if [[ ! -d "$UV_PROJECT_ENVIRONMENT" ]]; then
 fi
 source "$UV_PROJECT_ENVIRONMENT"/bin/activate
 
+# UV_OVERRIDE is read by uv natively: version pins in that file override
+# requirements.txt pins during resolution (see README "Overriding Packages")
+if [[ -n "${UV_OVERRIDE}" && ! -f "${UV_OVERRIDE}" ]]; then
+  echo "WARNING: UV_OVERRIDE file not found: ${UV_OVERRIDE} - ignoring"
+  unset UV_OVERRIDE
+fi
+
 cd "$APP_DIR"
 uv pip install -r requirements.txt
 uv pip install spaces
-uv run --no-config entrypoint.py
+exec uv run --no-config entrypoint.py

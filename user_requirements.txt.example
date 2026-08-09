@@ -1,0 +1,28 @@
+# Example override file for replacing package versions (e.g. PyTorch builds
+# for GPUs the default build does not support).
+#
+# How it works: this file is passed to uv via the UV_OVERRIDE environment
+# variable. Every version pin here OVERRIDES the corresponding pin in
+# requirements.txt during resolution — packages are installed once, with
+# no reinstall churn on container restarts.
+#
+# Usage:
+#   1. Copy this file into your data volume, e.g.:
+#        cp user_requirements.txt.example <your_data_dir>/user_requirements.txt
+#   2. Set the environment variables (path is INSIDE the container):
+#        UV_OVERRIDE=/data/user_requirements.txt
+#        UV_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu126
+#      (pick the index that matches the CUDA build you need)
+#   3. Uncomment ONE of the sections below and restart the container.
+#
+# For GTX 10xx (Pascal, sm_61): PyTorch dropped Pascal in CUDA 12.8+ builds.
+# CUDA 12.6 builds are the last ones that still include it:
+# torch==2.7.1+cu126
+#
+# For RTX 50xx (Blackwell, sm_120): requires CUDA 12.8+ builds
+# (UV_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu128):
+# torch==2.8.0+cu128
+#
+# For CPU-only installation
+# (UV_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cpu):
+# torch==2.8.0+cpu

@@ -56,7 +56,7 @@ ENV \
     GRADIO_ANALYTICS_ENABLED=False
 
 COPY $SOURCE_DIR_NAME/ .
-COPY entrypoint.sh .
+COPY --chmod=+x entrypoint.sh .
 COPY entrypoint.py .
 
 EXPOSE $GRADIO_SERVER_PORT
@@ -64,7 +64,7 @@ EXPOSE $GRADIO_SERVER_PORT
 VOLUME $DATA_DIR
 
 ENTRYPOINT []
-CMD /bin/bash
+CMD ["/bin/bash"]
 
 
 # -----------------------------------------------------------------
@@ -76,7 +76,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT []
-CMD /bin/bash
+CMD ["/bin/bash"]
 
 
 # -----------------------------------------------------------------
@@ -89,4 +89,4 @@ HEALTHCHECK --interval=15s --timeout=5s --start-period=3s --retries=10 \
 
 ENTRYPOINT []
 # CMD ["sleep", "infinity"]
-CMD ./entrypoint.sh
+CMD ["./entrypoint.sh"]

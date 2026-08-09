@@ -67,14 +67,43 @@ After the first run the data directory will look like this:
 ### Caveats
 
 - The first start is slow as the models are downloaded and the prerequisites get installed.
-- If you need a specific `torch` version, you can execute inside the running container:
 
-  E.g. torch for my GTX1080ti
-  ```bash
-  cd /data
-  source venv/bin/activate
-  uv pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu118 --force-reinstall
-  ```
-  Then restart the container.
- 
-  You can also execute this outside the container within the mounted virtual environment. 
+### Overriding Packages (e.g., for older/newer GPUs)
+
+If you need to override packages (like PyTorch for a GPU the default build
+does not support):
+
+1. Copy [`user_requirements.txt.example`](user_requirements.txt.example) into
+   your data volume as `user_requirements.txt` and uncomment the section you
+   need (there are examples for GTX 10xx / RTX 50xx / CPU-only inside).
+
+2. Run the container with two environment variables — `UV_OVERRIDE` is the
+   path to the file **inside the container**, `UV_EXTRA_INDEX_URL` points to
+   the PyTorch wheel index matching your CUDA build:
+   ```bash
+   docker run \
+     -v ./docker_volumes/stt/data:/data \
+     -e UV_OVERRIDE=/data/user_requirements.txt \
+     -e UV_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu126 \
+     -p 7860:7860 \
+     ghcr.io/alertua/stt_ukrainian_docker:latest
+   ```
+
+Every version pin in the file overrides the corresponding pin in
+`requirements.txt` during resolution — packages are installed once, with no
+reinstall churn on restarts. If the file is missing, the container logs a
+warning and starts with stock versions.
+
+### uv cache (`UV_CACHE_DIR`)
+
+`UV_CACHE_DIR` is the uv download cache directory **inside the container**.
+It defaults to `/data/uv_cache`, i.e. it lives in the data volume and
+survives container re-creation — no extra configuration needed.
+
+To share one uv cache between several containers/projects, bind a host
+directory over the default location:
+
+```yaml
+    volumes:
+      - /path/to/shared/uv_cache:/data/uv_cache
+```
